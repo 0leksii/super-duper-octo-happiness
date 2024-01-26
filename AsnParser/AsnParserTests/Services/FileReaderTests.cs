@@ -11,7 +11,7 @@ namespace AsnParserTests.Services;
 public class FileReaderTests
 {
     private readonly IFileReader _fileReader;
-    
+
     public FileReaderTests()
     {
         _fileReader = new FileReader();

@@ -6,6 +6,7 @@ namespace AsnParser.Services;
 public class FileQueue : IFileQueue
 {
     private readonly Channel<string> _channel;
+
     public FileQueue()
     {
         var options = new BoundedChannelOptions(Environment.ProcessorCount)
@@ -14,11 +15,11 @@ public class FileQueue : IFileQueue
         };
         _channel = Channel.CreateBounded<string>(options);
     }
-    
+
     public ValueTask EnqueueFileParsingTaskAsync(string filePath)
     {
         ArgumentNullException.ThrowIfNull(filePath);
-        
+
         return _channel.Writer.WriteAsync(filePath);
     }
 

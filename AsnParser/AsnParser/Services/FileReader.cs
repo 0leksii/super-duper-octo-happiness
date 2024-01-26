@@ -8,6 +8,7 @@ public class FileReader : IFileReader
 {
     private static readonly Regex BoxRegexp = new(@"HDR\s+(?<suppliedIdentifier>\w+)\s+(?<boxIdentifier>\w+)\s*");
     private static readonly Regex ContentRegexp = new(@"LINE\s+(?<poNumber>\w+)\s+(?<isbn>\w+)\s+(?<quantity>\d+)\s*");
+
     public async IAsyncEnumerable<Box> ParseFileAsync(string filePath)
     {
         Box? currentBox = null;
@@ -16,16 +17,10 @@ public class FileReader : IFileReader
         while (!reader.EndOfStream)
         {
             var line = await reader.ReadLineAsync();
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                continue;
-            }
+            if (string.IsNullOrWhiteSpace(line)) continue;
 
-            if (TryParseContent(line, out var content))
-            {
-                contents.Add(content!);
-            }
-            
+            if (TryParseContent(line, out var content)) contents.Add(content!);
+
             if (TryParseBox(line, out var newBox))
             {
                 if (currentBox != null)
@@ -40,12 +35,9 @@ public class FileReader : IFileReader
                     currentBox = newBox!;
                 }
             }
-            
         }
-        if (currentBox != null)
-        {
-            yield return currentBox with { Contents = contents };
-        }
+
+        if (currentBox != null) yield return currentBox with { Contents = contents };
     }
 
     private static bool TryParseBox(string fileLine, out Box? box)
@@ -64,7 +56,7 @@ public class FileReader : IFileReader
         box = null;
         return false;
     }
-    
+
     private static bool TryParseContent(string fileLine, out Content? content)
     {
         var contentMatch = ContentRegexp.Match(fileLine);

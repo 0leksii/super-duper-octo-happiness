@@ -6,4 +6,4 @@ public record Box
     public string Identifier { get; init; } = string.Empty;
 
     public IReadOnlyCollection<Content> Contents { get; init; } = new List<Content>();
-};
+}
