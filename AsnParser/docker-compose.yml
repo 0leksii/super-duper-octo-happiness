@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  parser:
+    image: asn_parser
+    container_name: "asn_parser"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - mongodb
+    depends_on: 
+      - mongodb
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

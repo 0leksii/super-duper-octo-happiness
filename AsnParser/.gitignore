@@ -1,0 +1,6 @@
+.idea
+AsnParser/bin
+AsnParser/obj
+AsnParserTests/bin
+AsnParserTests/obj
+AsnParser.sln.DotSettings.user

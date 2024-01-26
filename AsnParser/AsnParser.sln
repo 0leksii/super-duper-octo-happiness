@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsnParser", "AsnParser\AsnParser.csproj", "{428D8901-8139-4874-BB0C-A92EF06373EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsnParserTests", "AsnParserTests\AsnParserTests.csproj", "{DC973448-86E9-46BC-BDB5-412FE875022E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{428D8901-8139-4874-BB0C-A92EF06373EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428D8901-8139-4874-BB0C-A92EF06373EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428D8901-8139-4874-BB0C-A92EF06373EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428D8901-8139-4874-BB0C-A92EF06373EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC973448-86E9-46BC-BDB5-412FE875022E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC973448-86E9-46BC-BDB5-412FE875022E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC973448-86E9-46BC-BDB5-412FE875022E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC973448-86E9-46BC-BDB5-412FE875022E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
