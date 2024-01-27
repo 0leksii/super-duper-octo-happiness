@@ -11,6 +11,7 @@ public class FileWatcher : BackgroundService
     private readonly IConfiguration _configuration;
     private readonly IFileQueue _fileQueue;
     private readonly ILogger<FileWatcher> _logger;
+    private FileSystemWatcher? _fileSystemWatcher;
 
     public FileWatcher(IFileQueue fileQueue, IConfiguration configuration, ILogger<FileWatcher> logger)
     {
@@ -23,24 +24,30 @@ public class FileWatcher : BackgroundService
     {
         var path = _configuration["Directory"] ?? FilePath;
         _logger.LogInformation("Starting the file watcher for {Path}", path);
-        var fileSystemWatcher = new FileSystemWatcher(path);
-        fileSystemWatcher.NotifyFilter = NotifyFilters.Attributes
-                                         | NotifyFilters.CreationTime
-                                         | NotifyFilters.DirectoryName
-                                         | NotifyFilters.FileName
-                                         | NotifyFilters.LastAccess
-                                         | NotifyFilters.LastWrite
-                                         | NotifyFilters.Security
-                                         | NotifyFilters.Size;
-        fileSystemWatcher.Created += async (sender, args) =>
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        _fileSystemWatcher = new FileSystemWatcher(path);
+        _fileSystemWatcher.NotifyFilter = NotifyFilters.Attributes
+                                          | NotifyFilters.CreationTime
+                                          | NotifyFilters.DirectoryName
+                                          | NotifyFilters.FileName
+                                          | NotifyFilters.LastAccess
+                                          | NotifyFilters.LastWrite
+                                          | NotifyFilters.Security
+                                          | NotifyFilters.Size;
+        _fileSystemWatcher.Created += async (sender, args) =>
         {
             _logger.LogInformation("Adding {File} to the queue", args.FullPath);
             await _fileQueue.EnqueueFileParsingTaskAsync(args.FullPath);
         };
-        fileSystemWatcher.IncludeSubdirectories = true;
-        fileSystemWatcher.EnableRaisingEvents = true;
+        _fileSystemWatcher.IncludeSubdirectories = true;
+        _fileSystemWatcher.EnableRaisingEvents = true;
 
         while (!stoppingToken.IsCancellationRequested) await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+        _logger.LogInformation("Exiting the loop");
     }
 
     public override async Task StopAsync(CancellationToken stoppingToken)
